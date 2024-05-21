@@ -91,7 +91,7 @@ app.use(
 // should be used in your template files. 
 // 
 app.use((req, res, next) => {
-    res.locals.appName = 'MicroBlog';
+    res.locals.appName = 'SpaceBlog';
     res.locals.copyrightYear = 2024;
     res.locals.postNeoType = 'Post';
     res.locals.loggedIn = req.session.loggedIn || false;
@@ -166,7 +166,9 @@ app.post('/posts', (req, res) => {
 });
 app.post('/like/:id', (req, res) => {
     // TODO: Update post likes
-    const post = posts.find(p => p.id === parseInt(req.params.id));
+    const postId = parseInt(req.params.id);
+    const post = posts.find(p => p.id === postId);
+    
     if (post) {
         post.likes += 1;
         res.json({ likes: post.likes });
@@ -178,7 +180,8 @@ app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
     const user = getCurrentUser(req);
     if (user) {
-        res.render('profile', { user });
+        const userPosts = posts.filter(post => post.userId === user.id);
+        res.render('profile', { user, userPosts });
     } else {
         res.redirect('/login');
     }
@@ -209,9 +212,9 @@ app.post('/delete/:id', isAuthenticated, (req, res) => {
     const postIndex = posts.findIndex(p => p.id === parseInt(req.params.id));
     if (postIndex !== -1 && posts[postIndex].userId === req.session.userId) {
         posts.splice(postIndex, 1);
-        res.redirect('/');
+        res.json({ success: true }); // Send a success JSON response
     } else {
-        res.redirect('/error');
+        res.status(403).json({ success: false, message: 'Unauthorized' }); 
     }
 });
 
@@ -455,7 +458,7 @@ function generateAvatar(letter, width = 100, height = 100) {
 
     // Text
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 48px Arial';
+    ctx.font = 'bold 32px Arial';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(letter.toUpperCase(), width / 2, height / 2);

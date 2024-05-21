@@ -11,7 +11,7 @@
         <!-- user profile info -->
         <h1>{{user.username}}</h1>
         <p>Username: {{user.username}}</p>
-        <p>Member since: {{user.created_at}}</p>
+        <p>Member since: {{user.memberSince}}</p>
     </section>
 </div>
 
@@ -23,7 +23,10 @@
     {{#if user.posts.length}}
         <ul>
             {{#each user.posts}}
-                {{> post this userId=../user.id user=../user}}
+                 <h3>{{user.posts}}</h3>
+                 <li>{{user.content}}</li>
+                 <p><small>Posted on: {{this.timestamp}}</small></p>
+                 <p><small>Likes: {{likes}}</small></p>
             {{/each}}
         </ul>
     {{else}}
