@@ -1,0 +1,74 @@
+{{! Use the main layout }}
+{{!< main }}
+
+<section class="login-register">
+    <section class = "login-area">
+        <h2>Login</h2>
+        <!-- errors will appear here -->
+        {{#if loginError}}
+            <p style="color: red;">{{loginError}}</p>
+        {{/if}}
+        <form action="/login" method="POST">
+            <!-- the login form goes here -->     
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" name="username" required>   
+            <button type="submit">Login</button>
+        </form>
+    </section>
+
+    <!-- say --OR-- ... with style -->
+    <div class = "separator">
+        <p>--OR--</p>
+    </div>
+    <section class = "register-area">
+        <h2>Register</h2>
+        <!-- errors will appear here -->
+        {{#if regError}}
+            <p style="color: red;">{{regError}}</p>
+        {{/if}}
+        <form action="/register" method="POST">
+            <!-- the registration form goes here -->
+            <label for="register-username"> Username: </label>
+            <input type="text" id="register-username" name="username" required>
+            
+            <button type="submit">Register</button>
+        </form>
+    </section>
+</section>
+
+<style>
+    .login-register {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
+
+    .login-area, .register-area {
+        width: 45%;
+    }
+
+    .separator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px;
+    }
+
+    .separator p {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    form label, form input {
+        margin-bottom: 10px;
+    }
+
+    form button {
+        margin-top: 10px;
+    }
+</style>
