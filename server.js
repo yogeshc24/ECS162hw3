@@ -363,11 +363,16 @@ function logoutUser(req, res) {
 function renderProfile(req, res) {
     // TODO: Fetch user posts and render the profile page
     const user = getCurrentUser(req);
-    if (user) {
+   if (user) {
+        // Filter posts for the current user
         const userPosts = posts.filter(post => post.username === user.username);
-        res.render('profile', { user, userPosts });
+        // Include the posts within the user object
+        user.posts = userPosts;
+        // Render the profile view with the user object containing posts
+        res.render('profile', { user });
     } else {
-        res.redirect('/login');
+        // If user is not found, redirect to error page
+        res.redirect('/error');
     }
 }
 
