@@ -166,25 +166,11 @@ app.post('/posts', (req, res) => {
 });
 app.post('/like/:id', (req, res) => {
     // TODO: Update post likes
-    const postId = parseInt(req.params.id);
-    const post = posts.find(p => p.id === postId);
-    
-    if (post) {
-        post.likes += 1;
-        res.json({ likes: post.likes });
-    } else {
-        res.status(404).send('Post not found');
-    }
+  updatePostLikes(req, res);
 });
 app.get('/profile', isAuthenticated, (req, res) => {
     // TODO: Render profile page
-    const user = getCurrentUser(req);
-    if (user) {
-        const userPosts = posts.filter(post => post.userId === user.id);
-        res.render('profile', { user, userPosts });
-    } else {
-        res.redirect('/login');
-    }
+   renderProfile(req, res);
 });
 app.get('/avatar/:username', (req, res) => {
     // TODO: Serve the avatar image for the user
