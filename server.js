@@ -209,13 +209,13 @@ app.get('/logout', (req, res) => {
 });
 app.post('/delete/:id', isAuthenticated, (req, res) => {
     // TODO: Delete a post if the current user is the owner
-    const postIndex = posts.findIndex(p => p.id === parseInt(req.params.id));
-    if (postIndex !== -1 && posts[postIndex].userId === req.session.userId) {
-        posts.splice(postIndex, 1);
-        res.json({ success: true }); // Send a success JSON response
+    const index = posts.findIndex(post => post.id === parseInt(req.params.id));
+    if (index !== -1) {
+        posts.splice(index, 1);
     } else {
-        res.status(403).json({ success: false, message: 'Unauthorized' }); 
+        res.redirect('/error'); // Post not found
     }
+    getPosts();
 });
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
