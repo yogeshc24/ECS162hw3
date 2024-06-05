@@ -364,7 +364,7 @@ function renderProfile(req, res) {
     // TODO: Fetch user posts and render the profile page
     const user = getCurrentUser(req);
     if (user) {
-        const userPosts = posts.filter(post => post.userId === user.id);
+        const userPosts = posts.filter(post => post.username === user.username);
         res.render('profile', { user, userPosts });
     } else {
         res.redirect('/login');
